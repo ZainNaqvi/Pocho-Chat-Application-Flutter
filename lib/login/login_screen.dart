@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pocho_project/login/components/body.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pocho_project/widgets/customNavigation.dart';
 
 class LoginScreen extends StatelessWidget {
   static String routeName = '/loginScreen';
@@ -7,6 +9,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Body(),
+      bottomNavigationBar: customNavigation(),
     );
   }
 }

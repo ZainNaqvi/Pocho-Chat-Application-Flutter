@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pocho_project/login/components/customInputDecoration.dart';
 import 'package:pocho_project/login/components/eyeController.dart';
-import 'package:pocho_project/login/components/suffixIcon.dart';
-import 'package:pocho_project/widgets/customOutlineBorder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class formField extends StatefulWidget {
   formField({
