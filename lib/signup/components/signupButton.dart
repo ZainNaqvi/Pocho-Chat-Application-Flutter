@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget signupButton({required VoidCallback press}) {
-  return InkWell(
-    onTap: press,
+GestureDetector signupButton({required VoidCallback press}) {
+  return GestureDetector(
+    onTap: () {},
     child: Text(
       "Sign up",
       style: TextStyle(

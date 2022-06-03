@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pocho_project/login/components/customInputDecoration.dart';
-import 'package:pocho_project/login/components/eyeController.dart';
-import 'package:pocho_project/login/components/forgotpassword.dart';
+
+import 'package:pocho_project/signup/components/customInputDecoration.dart';
+import 'package:pocho_project/signup/components/eyeController.dart';
+
 import 'package:pocho_project/widgets/defaultButton.dart';
+import 'package:pocho_project/widgets/imagepicker.dart';
 
 class formField extends StatefulWidget {
   formField({
@@ -19,7 +21,19 @@ class _formFieldState extends State<formField> {
   // creating the text editing controller in for the authertification method of the firebase
 
   TextEditingController _emailController = TextEditingController();
+  TextEditingController _fullNameController = TextEditingController();
+  TextEditingController _userNameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+//
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _fullNameController.dispose();
+    _userNameController.dispose();
+    _passwordController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +41,10 @@ class _formFieldState extends State<formField> {
       key: _formKey,
       child: Column(
         children: [
+          imagePickerUser(press: () {}),
+          SizedBox(
+            height: 12,
+          ),
           // email field here....
           TextFormField(
             controller: _emailController,
@@ -34,10 +52,34 @@ class _formFieldState extends State<formField> {
             decoration: customInputDecoration(
               icon: Icons.email_outlined,
               press: () {},
-              text: "Enter your email",
+              text: "Email",
             ),
           ),
           // password field here....
+          SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            controller: _fullNameController,
+            keyboardType: TextInputType.text,
+            decoration: customInputDecoration(
+              icon: Icons.person_outline_outlined,
+              press: () {},
+              text: "Full Name",
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            controller: _userNameController,
+            keyboardType: TextInputType.text,
+            decoration: customInputDecoration(
+              icon: Icons.person_outline_outlined,
+              press: () {},
+              text: "Username",
+            ),
+          ),
           SizedBox(
             height: 10,
           ),
@@ -51,26 +93,25 @@ class _formFieldState extends State<formField> {
                 setState(() {});
                 print(_obscure.isObscure);
               },
-              text: "Enter your password",
+              text: "Password",
             ),
             obscureText: _obscure.isObscure,
           ),
           SizedBox(
             height: 20,
           ),
-          // forgot password
-          forgotPassword(
-            press: () {},
-          ),
+
           //
           // Login button
           SizedBox(
             height: 30,
           ),
           defaultButton(
-            text: "Log in",
+            text: "Sign up",
             press: () {
               print(_emailController.toString());
+              print(_fullNameController.toString());
+              print(_userNameController.toString());
               print(_passwordController.toString());
             },
           ),
