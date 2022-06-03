@@ -8,7 +8,11 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(text: "Login Screen", context: context),
+      appBar: customAppBar(
+          color: Colors.transparent,
+          press: () {},
+          text: "Login",
+          context: context),
       body: Body(),
       bottomNavigationBar: customNavigation(),
     );

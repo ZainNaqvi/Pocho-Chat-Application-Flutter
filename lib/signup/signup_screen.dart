@@ -9,7 +9,11 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(
-        text: "Signup Screen",
+        color: Colors.grey,
+        press: () {
+          Navigator.pop(context);
+        },
+        text: "Sign Up",
         context: context,
       ),
       body: Body(),
