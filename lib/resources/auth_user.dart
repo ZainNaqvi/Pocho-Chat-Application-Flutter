@@ -1,5 +1,7 @@
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pocho_project/utilities/storage_methods.dart';
 // import 'package:flutter/material.dart';
 
 class AuthUser {
@@ -7,17 +9,28 @@ class AuthUser {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 // creating the instances of the firebase firestore cloud database
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
   // Creating the function which is responsible for the auth related work
+
+//
+
   Future<String> createUser({
     required String email,
     required String password,
     required String bio,
     required String fullName,
     required String userName,
+    // required Uint8List profilePic,
   }) async {
     String res = "Some error occured";
     try {
       if (email.isNotEmpty || password.isNotEmpty || bio.isNotEmpty) {
+        // String photoUrl = await StorageMethodFirebase().uploadImageToStorage(
+        //   childName: "profilePictures",
+        //   file: profilePic,
+        //   isPost: false,
+        // );
+
         // validation for authentication firebase authentification tab
 
         UserCredential creaditials = await _auth.createUserWithEmailAndPassword(
@@ -32,6 +45,7 @@ class AuthUser {
           "uid": creaditials.user!.uid,
           "followers": [],
           "following": [],
+          // "photoURL": photoUrl,
         });
       }
       //
