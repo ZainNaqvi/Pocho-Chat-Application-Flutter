@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pocho_project/resources/auth_user.dart';
 
 import 'package:pocho_project/signup/components/customInputDecoration.dart';
 import 'package:pocho_project/signup/components/eyeController.dart';
@@ -23,6 +24,7 @@ class _formFieldState extends State<formField> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _fullNameController = TextEditingController();
   TextEditingController _userNameController = TextEditingController();
+  TextEditingController _userBioController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 //
   @override
@@ -30,18 +32,23 @@ class _formFieldState extends State<formField> {
     _emailController.dispose();
     _fullNameController.dispose();
     _userNameController.dispose();
+    _userBioController.dispose();
     _passwordController.dispose();
     // TODO: implement dispose
     super.dispose();
   }
 
+// for selecting the image process here
+  selectedImage() {}
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          imagePickerUser(press: () {}),
+          imagePickerUser(
+            press: selectedImage,
+          ),
           SizedBox(
             height: 12,
           ),
@@ -84,6 +91,18 @@ class _formFieldState extends State<formField> {
             height: 10,
           ),
           TextFormField(
+            controller: _userBioController,
+            keyboardType: TextInputType.text,
+            decoration: customInputDecoration(
+              icon: Icons.info_outline,
+              press: () {},
+              text: "Bio",
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextFormField(
             controller: _passwordController,
             keyboardType: TextInputType.text,
             decoration: customInputDecoration(
@@ -97,22 +116,22 @@ class _formFieldState extends State<formField> {
             ),
             obscureText: _obscure.isObscure,
           ),
-          SizedBox(
-            height: 20,
-          ),
 
           //
           // Login button
           SizedBox(
-            height: 30,
+            height: 20,
           ),
           defaultButton(
             text: "Sign up",
-            press: () {
-              print(_emailController.toString());
-              print(_fullNameController.toString());
-              print(_userNameController.toString());
-              print(_passwordController.toString());
+            press: () async {
+              await AuthUser().createUser(
+                email: _emailController.text,
+                password: _passwordController.text,
+                bio: _userBioController.text,
+                fullName: _fullNameController.text,
+                userName: _userNameController.text,
+              );
             },
           ),
         ],
