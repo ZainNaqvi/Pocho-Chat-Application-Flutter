@@ -11,7 +11,6 @@ import 'package:pocho_project/signup/components/eyeController.dart';
 import 'package:pocho_project/utilities/imagePicker.dart';
 
 import 'package:pocho_project/widgets/defaultButton.dart';
-import 'package:pocho_project/widgets/imagepicker.dart';
 
 class formField extends StatefulWidget {
   formField({
@@ -47,7 +46,9 @@ class _formFieldState extends State<formField> {
 
 // for selecting the image process here
   selectedImage() async {
-    Uint8List imageURL = await imagePicker(ImageSource.gallery);
+    Uint8List imageURL = await pickImage(
+      ImageSource.gallery,
+    );
     setState(() {
       _imageURL = imageURL;
     });
@@ -183,9 +184,9 @@ class _formFieldState extends State<formField> {
             text: "Sign up",
             press: () async {
               String res = await AuthUser().createUser(
+                profilePic: _imageURL!,
                 email: _emailController.text,
                 password: _passwordController.text,
-                // profilePic: _imageURL!,
                 bio: _userBioController.text,
                 fullName: _fullNameController.text,
                 userName: _userNameController.text,

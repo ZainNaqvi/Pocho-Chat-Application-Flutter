@@ -1,29 +1,23 @@
 import 'dart:typed_data';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class StorageMethodFirebase {
-  // creating the instance of the firebase storage here...
-  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  // creating the instance of the firebase auth here....
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+class StorageMethods {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  // add image to the firebase storage here..
-  Future<String> uploadImageToStorage({
-    required String childName,
-    required Uint8List file,
-    required bool isPost,
-  }) async {
-    Reference reference = _firebaseStorage
-        .ref()
-        .child(childName)
-        .child(_firebaseAuth.currentUser!.uid);
-    // for the uploading picture to the firebase storage we have
-    UploadTask uploadTask = reference.putData(file);
-    TaskSnapshot snap = await uploadTask;
-    // downloading process
-    String downloadURL = await snap.ref.getDownloadURL();
-    return downloadURL;
+  // adding image to firebase storage
+  Future<String> uploadImageToStorage(
+      String childName, Uint8List file, bool isPost) async {
+    // creating location to our firebase storage
+
+    Reference ref =
+        _storage.ref().child(childName).child(_auth.currentUser!.uid);
+    // putting in uint8list format -> Upload task like a future but not future
+    UploadTask uploadTask = ref.putData(file);
+
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
   }
 }

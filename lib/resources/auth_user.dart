@@ -20,17 +20,15 @@ class AuthUser {
     required String bio,
     required String fullName,
     required String userName,
-    // required Uint8List profilePic,
+    required Uint8List profilePic,
   }) async {
-    String res = "Some error occured";
+    String res = 'Perfect';
     try {
-      if (email.isNotEmpty || password.isNotEmpty || bio.isNotEmpty) {
-        // String photoUrl = await StorageMethodFirebase().uploadImageToStorage(
-        //   childName: "profilePictures",
-        //   file: profilePic,
-        //   isPost: false,
-        // );
-
+      if (email.isNotEmpty ||
+          password.isNotEmpty ||
+          bio.isNotEmpty ||
+          userName.isNotEmpty ||
+          fullName.isNotEmpty) {
         // validation for authentication firebase authentification tab
 
         UserCredential creaditials = await _auth.createUserWithEmailAndPassword(
@@ -38,19 +36,31 @@ class AuthUser {
         // printing the user uid as we know the user id could'nt null
         print(creaditials.user!.uid);
         // for storing the data like username, userpic and userphone number etc etc we have to call cloud database
-        _firebaseFirestore.collection("users").doc(creaditials.user!.uid).set({
+        String photoUrl = await StorageMethods()
+            .uploadImageToStorage("ProfilePics", profilePic, false);
+
+        await _firebaseFirestore
+            .collection("users")
+            .doc(creaditials.user!.uid)
+            .set({
           "fullName": fullName,
           "userName": userName,
           "bio": bio,
           "uid": creaditials.user!.uid,
           "followers": [],
           "following": [],
-          // "photoURL": photoUrl,
+          "photoURL": photoUrl,
         });
       }
       //
+    } on FirebaseAuthException catch (err) {
+      if (err.code == "invalid-email") {
+        res = "The email is badly formated0";
+      } else if (err.code == "weak-password") {
+        res = "The password is weak at least 6 character";
+      }
     } catch (err) {
-      res = err.toString();
+      res = "this " + err.toString();
     }
     return res;
   }
