@@ -22,7 +22,7 @@ class AuthUser {
     required String userName,
     required Uint8List profilePic,
   }) async {
-    String res = 'Perfect';
+    String res = 'Running state....';
     try {
       if (email.isNotEmpty ||
           password.isNotEmpty ||
@@ -52,16 +52,17 @@ class AuthUser {
           "photoURL": photoUrl,
         });
       }
-      //
-    } on FirebaseAuthException catch (err) {
-      if (err.code == "invalid-email") {
-        res = "The email is badly formated0";
-      } else if (err.code == "weak-password") {
-        res = "The password is weak at least 6 character";
-      }
+      res = "success";
     } catch (err) {
-      res = "this " + err.toString();
+      res = err.toString();
     }
     return res;
   }
 }
+// on FirebaseAuthException catch (err) {
+//       if (err.code == "invalid-email") {
+//         res = "The email is badly formated0";
+//       } else if (err.code == "weak-password") {
+//         res = "The password is weak at least 6 character";
+//       }
+//     } 

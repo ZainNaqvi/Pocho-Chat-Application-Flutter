@@ -9,6 +9,7 @@ import 'package:pocho_project/resources/auth_user.dart';
 import 'package:pocho_project/signup/components/customInputDecoration.dart';
 import 'package:pocho_project/signup/components/eyeController.dart';
 import 'package:pocho_project/utilities/imagePicker.dart';
+import 'package:pocho_project/widgets/customSnakeBar.dart';
 
 import 'package:pocho_project/widgets/defaultButton.dart';
 
@@ -33,6 +34,8 @@ class _formFieldState extends State<formField> {
   TextEditingController _passwordController = TextEditingController();
 //
   Uint8List? _imageURL;
+  // for loading state we have
+  bool loading = false;
   @override
   void dispose() {
     _emailController.dispose();
@@ -52,6 +55,29 @@ class _formFieldState extends State<formField> {
     setState(() {
       _imageURL = imageURL;
     });
+  }
+
+  void sendFormToFirebase() async {
+    setState(() {
+      loading = true;
+    });
+    String res = await AuthUser().createUser(
+      profilePic: _imageURL!,
+      email: _emailController.text,
+      password: _passwordController.text,
+      bio: _userBioController.text,
+      fullName: _fullNameController.text,
+      userName: _userNameController.text,
+    );
+    if (res == "success") {
+      showSnakeBar(res, context);
+    } else if (res != "success") {
+      showSnakeBar(res, context);
+    }
+    setState(() {
+      loading = false;
+    });
+    print(res);
   }
 
   @override
@@ -180,20 +206,14 @@ class _formFieldState extends State<formField> {
           SizedBox(
             height: 20,
           ),
-          defaultButton(
-            text: "Sign up",
-            press: () async {
-              String res = await AuthUser().createUser(
-                profilePic: _imageURL!,
-                email: _emailController.text,
-                password: _passwordController.text,
-                bio: _userBioController.text,
-                fullName: _fullNameController.text,
-                userName: _userNameController.text,
-              );
-              print(res);
-            },
-          ),
+          loading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : defaultButton(
+                  text: "Sign up",
+                  press: sendFormToFirebase,
+                ),
         ],
       ),
     );
