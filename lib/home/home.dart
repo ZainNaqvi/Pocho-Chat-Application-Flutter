@@ -15,24 +15,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   addData();
-  // }
-
-  // addData() async {
-  //   UserProviders _userProviders = Provider.of(context, listen: false);
-  //   await _userProviders.refreshUser();
-  // }
-  // creating the page controlller
-  late PageController pageController;
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
+    addData();
     pageController = PageController();
   }
+
+  addData() async {
+    UserProviders _userProviders = Provider.of(context, listen: false);
+    await _userProviders.refreshUser();
+  }
+
+  // creating the page controlller
+  late PageController pageController;
 
   @override
   void dispose() {
