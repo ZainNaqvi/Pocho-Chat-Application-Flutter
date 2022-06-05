@@ -105,9 +105,8 @@ class _formFieldState extends State<formField> {
                         )
                       : CircleAvatar(
                           key: UniqueKey(),
-                          backgroundImage: NetworkImage(
-                            "https://www.kindpng.com/picc/m/21-214439_free-high-quality-person-icon-default-profile-picture.png",
-                          ),
+                          backgroundImage:
+                              NetworkImage("assets/images/default-profile.jpg"),
                           backgroundColor: Colors.white.withOpacity(0.13),
                           radius: 50,
                         ),
@@ -208,11 +207,21 @@ class _formFieldState extends State<formField> {
           ),
           loading
               ? Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
                 )
               : defaultButton(
                   text: "Sign up",
-                  press: sendFormToFirebase,
+                  press: _emailController.text.isEmpty ||
+                          _passwordController.text.isEmpty ||
+                          _userBioController.text.isEmpty ||
+                          _fullNameController.text.isEmpty ||
+                          _userNameController.text.isEmpty
+                      ? () {
+                          showSnakeBar("All the Fields are Required", context);
+                        }
+                      : sendFormToFirebase,
                 ),
         ],
       ),

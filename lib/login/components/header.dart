@@ -5,9 +5,12 @@ Column headerContent() {
   return Column(
     children: [
       Text(
-        "P O C H O ",
+        'Welcome Back\n P O C H O',
+        textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 30.sp,
+          height: 1.4,
+          fontWeight: FontWeight.bold,
+          fontSize: 35.sp,
         ),
       ),
       SizedBox(height: 5),
@@ -17,6 +20,19 @@ Column headerContent() {
           fontSize: 10.sp,
           color: Colors.grey,
         ),
+      ),
+      SizedBox(
+        height: 25,
+      ),
+      // login welcome back
+
+      SizedBox(
+        height: 10,
+      ),
+      Text(
+        'Signin with your email and password or \ncontinue with social media.',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 14.sp, color: Colors.grey),
       ),
     ],
   );

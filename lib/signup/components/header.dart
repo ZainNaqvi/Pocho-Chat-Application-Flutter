@@ -5,9 +5,13 @@ Column headerContent() {
   return Column(
     children: [
       Text(
-        "P O C H O ",
+        "Complete Profile",
+        textAlign: TextAlign.center,
+        maxLines: 1,
         style: TextStyle(
-          fontSize: 30.sp,
+          height: 1.4,
+          fontWeight: FontWeight.bold,
+          fontSize: 35.sp,
         ),
       ),
       SizedBox(height: 5),

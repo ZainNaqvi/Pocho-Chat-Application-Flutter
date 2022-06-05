@@ -22,7 +22,7 @@ class AuthUser {
     required String userName,
     required Uint8List profilePic,
   }) async {
-    String res = 'Running state....';
+    String res = '';
     try {
       if (email.isNotEmpty ||
           password.isNotEmpty ||
@@ -51,18 +51,39 @@ class AuthUser {
           "following": [],
           "photoURL": photoUrl,
         });
+        res = "success";
+      } else {
+        res = "All Fields are Required";
       }
-      res = "success";
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  // creating the logging fucntion whom user login
+  Future<String> userLogin(
+      {required String email, required String password}) async {
+    String res = "Some error occured.";
+    // checking the values are empty or not
+    try {
+      if (email.isNotEmpty || password.isNotEmpty) {
+        // now checking and login the user
+        UserCredential credential = await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        print(credential.user!.uid);
+        // if all set than responce will be success
+        res = "success";
+      } else {
+        res = "All the Fields are required";
+      }
+    } on FirebaseAuthException catch (err) {
+      if (err.code == "wrong-password") {
+        res = "Invalid Creaditials";
+      }
     } catch (err) {
       res = err.toString();
     }
     return res;
   }
 }
-// on FirebaseAuthException catch (err) {
-//       if (err.code == "invalid-email") {
-//         res = "The email is badly formated0";
-//       } else if (err.code == "weak-password") {
-//         res = "The password is weak at least 6 character";
-//       }
-//     } 

@@ -9,16 +9,16 @@ import 'package:pocho_project/signup/signup_screen.dart';
 
 class Body extends StatelessWidget {
   Body({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       physics: AlwaysScrollableScrollPhysics(),
       child: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(
             horizontal: 16.w,
-            vertical: 78.h,
+            vertical: size.height * 0.04.h,
           ),
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.center,

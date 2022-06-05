@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pocho_project/home/home.dart';
 import 'package:pocho_project/login/components/customInputDecoration.dart';
 import 'package:pocho_project/login/components/eyeController.dart';
 import 'package:pocho_project/login/components/forgotpassword.dart';
+import 'package:pocho_project/resources/auth_user.dart';
+import 'package:pocho_project/widgets/customSnakeBar.dart';
 import 'package:pocho_project/widgets/defaultButton.dart';
 
 class formField extends StatefulWidget {
@@ -20,6 +23,37 @@ class _formFieldState extends State<formField> {
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  // for loading spinner we have
+  bool isLoading = false;
+// disposing the controllers
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+// login the user here...
+  void loginUser() async {
+    setState(() {
+      isLoading = true;
+    });
+    String res = await AuthUser().userLogin(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+    if (res == "success") {
+      showSnakeBar(res, context);
+      await Future.delayed(Duration(seconds: 2));
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    } else {
+      showSnakeBar(res, context);
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +101,16 @@ class _formFieldState extends State<formField> {
           SizedBox(
             height: 30,
           ),
-          defaultButton(
-            text: "Log in",
-            press: () {
-              print(_emailController.toString());
-              print(_passwordController.toString());
-            },
-          ),
+          isLoading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                )
+              : defaultButton(
+                  text: "Log in",
+                  press: loginUser,
+                ),
         ],
       ),
     );
