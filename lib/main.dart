@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pocho_project/constants.dart';
+import 'package:pocho_project/home/home.dart';
+import 'package:pocho_project/login/login_screen.dart';
 import 'package:pocho_project/routes/route.dart';
 import 'package:pocho_project/splash/splash.dart';
+import 'package:pocho_project/widgets/customSnakeBar.dart';
 
 void main() async {
   // initializing the firebase firestore
@@ -53,7 +56,30 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: SplashScreen(),
+      child: StreamBuilder(
+        stream: FirebaseAuth.instance.idTokenChanges(),
+        builder: (context, snapshot) {
+          // if the connection is made
+          if (snapshot.connectionState == ConnectionState.active) {
+            // snapshot has data then return the screen
+            if (snapshot.hasData) {
+              return HomeScreen();
+            } else if (snapshot.hasError) {
+              // has errorr
+              return showSnakeBar(snapshot.error.toString(), context);
+            }
+          }
+          // if connection is on waiting state
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            );
+          }
+          return LoginScreen();
+        },
+      ),
     );
   }
 }

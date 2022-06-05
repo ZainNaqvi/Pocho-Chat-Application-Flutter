@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pocho_project/model/users.dart';
 import 'package:pocho_project/utilities/storage_methods.dart';
 // import 'package:flutter/material.dart';
 
@@ -38,19 +39,23 @@ class AuthUser {
         // for storing the data like username, userpic and userphone number etc etc we have to call cloud database
         String photoUrl = await StorageMethods()
             .uploadImageToStorage("ProfilePics", profilePic, false);
-
+// importing the class user
+        UserCreaditials userCreaditials = UserCreaditials(
+          bio: bio,
+          uid: creaditials.user!.uid,
+          email: email,
+          password: password,
+          fullName: fullName,
+          profilePic: photoUrl,
+          userName: userName,
+          followers: [],
+          following: [],
+        );
+        // add user to the database
         await _firebaseFirestore
             .collection("users")
             .doc(creaditials.user!.uid)
-            .set({
-          "fullName": fullName,
-          "userName": userName,
-          "bio": bio,
-          "uid": creaditials.user!.uid,
-          "followers": [],
-          "following": [],
-          "photoURL": photoUrl,
-        });
+            .set(userCreaditials.toJson());
         res = "success";
       } else {
         res = "All Fields are Required";

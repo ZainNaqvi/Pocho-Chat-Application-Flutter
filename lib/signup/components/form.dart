@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pocho_project/constants.dart';
+import 'package:pocho_project/home/home.dart';
 import 'package:pocho_project/resources/auth_user.dart';
 
 import 'package:pocho_project/signup/components/customInputDecoration.dart';
@@ -71,6 +72,7 @@ class _formFieldState extends State<formField> {
     );
     if (res == "success") {
       showSnakeBar(res, context);
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     } else if (res != "success") {
       showSnakeBar(res, context);
     }

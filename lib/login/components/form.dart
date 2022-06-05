@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pocho_project/home/home.dart';
 import 'package:pocho_project/login/components/customInputDecoration.dart';
 import 'package:pocho_project/login/components/eyeController.dart';
 import 'package:pocho_project/login/components/forgotpassword.dart';
 import 'package:pocho_project/resources/auth_user.dart';
 import 'package:pocho_project/widgets/customSnakeBar.dart';
+import 'package:pocho_project/widgets/customTermsAndConditial.dart';
 import 'package:pocho_project/widgets/defaultButton.dart';
 
 class formField extends StatefulWidget {
@@ -45,8 +45,7 @@ class _formFieldState extends State<formField> {
     );
     if (res == "success") {
       showSnakeBar(res, context);
-      await Future.delayed(Duration(seconds: 2));
-      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      showalert(context);
     } else {
       showSnakeBar(res, context);
     }
