@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:pocho_project/addPost/addPost.dart';
 
 List<Widget> items = [
   Text("feed"),
   Text("search"),
-  Text("add"),
+  AddPost(),
   Text("notif"),
   Text("personal"),
 ];
