@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pocho_project/home/home.dart';
+
 import 'package:pocho_project/widgets/customSnakeBar.dart';
 
 showalert(BuildContext context) {
@@ -25,7 +28,7 @@ showalert(BuildContext context) {
                 height: 10,
               ),
               Text(
-                "Hi! Zain ",
+                "Hi! Zain",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,

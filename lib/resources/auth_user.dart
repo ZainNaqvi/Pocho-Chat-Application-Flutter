@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pocho_project/model/users.dart';
 import 'package:pocho_project/utilities/storage_methods.dart';
+import 'package:pocho_project/widgets/customSnakeBar.dart';
 // import 'package:flutter/material.dart';
 
 class AuthUser {
@@ -11,9 +12,27 @@ class AuthUser {
 // creating the instances of the firebase firestore cloud database
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  // Creating the function which is responsible for the auth related work
+// for the provider
+  Future<UserCreaditials> getUserDetails() async {
+    // getting the current user by firebase auth
+    User currentUser = _auth.currentUser!;
 
-//
+    //getting the data
+
+    DocumentSnapshot snapshot = await _firebaseFirestore
+        .collection("users")
+        .doc(currentUser.uid)
+        .get()
+        .catchError(
+      (onError) {
+        print(onError);
+      },
+    );
+
+    print(snapshot.data());
+    return UserCreaditials.fromSnap(snapshot);
+  }
+  // Creating the function which is responsible for the auth related work
 
   Future<String> createUser({
     required String email,
@@ -43,8 +62,6 @@ class AuthUser {
         UserCreaditials userCreaditials = UserCreaditials(
           bio: bio,
           uid: creaditials.user!.uid,
-          email: email,
-          password: password,
           fullName: fullName,
           profilePic: photoUrl,
           userName: userName,

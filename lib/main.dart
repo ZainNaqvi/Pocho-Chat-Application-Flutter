@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pocho_project/home/home.dart';
 import 'package:pocho_project/login/login_screen.dart';
+import 'package:pocho_project/providers/userProviders.dart';
+
 import 'package:pocho_project/routes/route.dart';
 import 'package:pocho_project/splash/splash.dart';
 import 'package:pocho_project/widgets/customSnakeBar.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   // initializing the firebase firestore
@@ -40,20 +43,27 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          initialRoute: SplashScreen.routeName,
-          routes: routes,
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (_) => UserProviders(),
+            ),
+          ],
+          child: MaterialApp(
+            initialRoute: SplashScreen.routeName,
+            routes: routes,
 
-          debugShowCheckedModeBanner: false,
-          title: 'First Method',
-          // You can use the library anywhere in the app even in theme
-          theme: ThemeData.dark().copyWith(
-            canvasColor: Colors.black,
-            scaffoldBackgroundColor: Colors.black,
-            textTheme: Typography.englishLike2018
-                .apply(fontSizeFactor: 1.sp, bodyColor: Colors.white),
+            debugShowCheckedModeBanner: false,
+            title: 'First Method',
+            // You can use the library anywhere in the app even in theme
+            theme: ThemeData.dark().copyWith(
+              canvasColor: Colors.black,
+              scaffoldBackgroundColor: Colors.black,
+              textTheme: Typography.englishLike2018
+                  .apply(fontSizeFactor: 1.sp, bodyColor: Colors.white),
+            ),
+            home: child,
           ),
-          home: child,
         );
       },
       child: StreamBuilder(
