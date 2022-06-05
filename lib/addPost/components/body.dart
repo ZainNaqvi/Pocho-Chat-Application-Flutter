@@ -18,7 +18,10 @@ class _BodyState extends State<Body> {
         Provider.of<UserProviders>(context).getUser;
     return Container(
       child: Center(
-        child: Image.network(userCreaditials.profilePic),
+        child: CircleAvatar(
+          key: UniqueKey(),
+          backgroundImage: AssetImage(userCreaditials.profilePic),
+        ),
       ),
       color: Colors.black,
     );
