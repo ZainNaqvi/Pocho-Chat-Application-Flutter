@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pocho_project/home/home.dart';
 import 'package:pocho_project/login/login_screen.dart';
 import 'package:pocho_project/providers/userProviders.dart';
-
 import 'package:pocho_project/routes/route.dart';
 import 'package:pocho_project/splash/splash.dart';
 import 'package:pocho_project/widgets/customSnakeBar.dart';

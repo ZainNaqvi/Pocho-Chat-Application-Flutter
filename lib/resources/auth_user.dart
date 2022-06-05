@@ -29,7 +29,6 @@ class AuthUser {
       },
     );
 
-    print(snapshot.data());
     return UserCreaditials.fromSnap(snapshot);
   }
   // Creating the function which is responsible for the auth related work

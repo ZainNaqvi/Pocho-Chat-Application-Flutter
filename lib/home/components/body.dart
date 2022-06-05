@@ -12,30 +12,12 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  // String name = "";
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getData();
-  // }
-
-  // void getData() async {
-  //   DocumentSnapshot snapshot = await FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(FirebaseAuth.instance.currentUser!.uid)
-  //       .get();
-
-  //   setState(() {
-  //     name = (snapshot.data() as Map<String, dynamic>)['userName'];
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
-    UserCreaditials user = Provider.of<UserProviders>(context).getUser;
+    // UserCreaditials user = Provider.of<UserProviders>(context).getUser;
     return Container(
       child: Center(
-        child: Text(" welcome! ${user.userName} to the home screen."),
+        child: Text(" welcome!  to the home screen."),
       ),
     );
   }
