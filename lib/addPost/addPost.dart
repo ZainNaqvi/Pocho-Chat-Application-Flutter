@@ -2,11 +2,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pocho_project/addPost/components/appbar.dart';
+
 import 'package:pocho_project/constants.dart';
 import 'package:pocho_project/model/users.dart';
 import 'package:pocho_project/providers/userProviders.dart';
+import 'package:pocho_project/resources/firestoreMethods.dart';
 import 'package:pocho_project/utilities/imagePicker.dart';
+import 'package:pocho_project/widgets/customSnakeBar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -73,6 +75,28 @@ class _AddPostScreenState extends State<AddPostScreen> {
     _caption.dispose();
   }
 
+// for adding post
+  void addPost({
+    required String uid,
+    required String userName,
+    required String profileImage,
+  }) async {
+    try {
+      String res = await FirestoreMethods().uploadPost(
+        file: _file!,
+        description: _caption.text,
+        uid: uid,
+        userName: userName,
+        profileImage: profileImage,
+      );
+      if (res == "success") {
+        showSnakeBar("The post successfully posted.", context);
+      }
+    } catch (e) {
+      showSnakeBar(e.toString(), context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // provider code for gettiing the data from the databsae
@@ -80,7 +104,36 @@ class _AddPostScreenState extends State<AddPostScreen> {
         Provider.of<UserProviders>(context).getUser;
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: customAddPostAppBar(),
+      appBar: AppBar(
+        actions: [
+          Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: Text(
+                "Post",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 15.sp,
+                ),
+              ),
+            ),
+          ),
+        ],
+        backgroundColor: Colors.black,
+        centerTitle: false,
+        title: Text(
+          "Add Post",
+          style: TextStyle(fontSize: 15.sp),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () => addPost(
+            uid: userCreaditials.uid,
+            profileImage: userCreaditials.profilePic,
+            userName: userCreaditials.userName,
+          ),
+        ),
+      ),
       body: _file == null
           ? Center(
               child: IconButton(
