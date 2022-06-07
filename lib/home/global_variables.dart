@@ -4,7 +4,7 @@ import 'package:pocho_project/addPost/addPost.dart';
 List<Widget> items = [
   Text("feed"),
   Text("search"),
-  AddPost(),
+  AddPostScreen(),
   Text("notif"),
   Text("personal"),
 ];

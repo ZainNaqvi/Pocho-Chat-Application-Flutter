@@ -19,12 +19,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     addData();
     pageController = PageController();
   }
 
   addData() async {
     UserProviders _userProviders = Provider.of(context, listen: false);
+
     await _userProviders.refreshUser();
   }
 
