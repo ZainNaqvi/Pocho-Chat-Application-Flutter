@@ -23,7 +23,7 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen> {
   TextEditingController _feeling = TextEditingController();
   TextEditingController _caption = TextEditingController();
-
+  bool _isloading = false;
   Uint8List? _file;
 
   selectImage(BuildContext context) {
@@ -81,6 +81,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
     required String userName,
     required String profileImage,
   }) async {
+    setState(() {
+      _isloading = true;
+    });
     try {
       String res = await FirestoreMethods().uploadPost(
         file: _file!,
@@ -90,11 +93,26 @@ class _AddPostScreenState extends State<AddPostScreen> {
         profileImage: profileImage,
       );
       if (res == "success") {
+        setState(() {
+          _isloading = false;
+        });
         showSnakeBar("The post successfully posted.", context);
+        clearImage();
+      } else {
+        setState(() {
+          _isloading = false;
+        });
+        showSnakeBar(res, context);
       }
     } catch (e) {
       showSnakeBar(e.toString(), context);
     }
+  }
+
+  void clearImage() {
+    setState(() {
+      _file = null;
+    });
   }
 
   @override
@@ -109,11 +127,18 @@ class _AddPostScreenState extends State<AddPostScreen> {
           Center(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w),
-              child: Text(
-                "Post",
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 15.sp,
+              child: GestureDetector(
+                onTap: () => addPost(
+                  uid: userCreaditials.uid,
+                  profileImage: userCreaditials.profilePic,
+                  userName: userCreaditials.userName,
+                ),
+                child: Text(
+                  "Post",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 15.sp,
+                  ),
                 ),
               ),
             ),
@@ -127,11 +152,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
-          onPressed: () => addPost(
-            uid: userCreaditials.uid,
-            profileImage: userCreaditials.profilePic,
-            userName: userCreaditials.userName,
-          ),
+          onPressed: clearImage,
         ),
       ),
       body: _file == null
@@ -148,6 +169,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: Column(
                     children: [
+                      _isloading
+                          ? LinearProgressIndicator(
+                              color: Colors.red.withOpacity(0.4),
+                            )
+                          : Padding(padding: EdgeInsets.only(top: 0)),
+                      const Divider(),
                       SizedBox(
                         height: 10.h,
                       ),
