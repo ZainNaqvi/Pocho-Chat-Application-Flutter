@@ -42,6 +42,7 @@ class UserPost {
       likes: snapshot['likes'],
       datePublished: snapshot['datePublished'],
       postURL: snapshot['postURL'],
+      postId: snapshot['postId'],
     );
   }
 }
