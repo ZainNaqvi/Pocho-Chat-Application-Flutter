@@ -52,65 +52,69 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        children: items,
-        physics: NeverScrollableScrollPhysics(),
-        controller: pageController,
-        onPageChanged: onPageChanged,
-      ),
-      bottomNavigationBar: CupertinoTabBar(
-        height: 70.sp,
-        backgroundColor: Colors.black,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              size: _page == 0 ? 35 : 30,
-              color: _page == 0 ? Colors.white : Colors.grey,
+    return UserProviders().isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : Scaffold(
+            body: PageView(
+              children: items,
+              physics: NeverScrollableScrollPhysics(),
+              controller: pageController,
+              onPageChanged: onPageChanged,
             ),
-            label: "",
-            backgroundColor: Colors.white,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.search,
-              size: _page == 1 ? 35 : 30,
-              color: _page == 1 ? Colors.white : Colors.grey,
+            bottomNavigationBar: CupertinoTabBar(
+              height: 70.sp,
+              backgroundColor: Colors.black,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                    size: _page == 0 ? 35 : 30,
+                    color: _page == 0 ? Colors.white : Colors.grey,
+                  ),
+                  label: "",
+                  backgroundColor: Colors.white,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.search,
+                    size: _page == 1 ? 35 : 30,
+                    color: _page == 1 ? Colors.white : Colors.grey,
+                  ),
+                  label: "",
+                  backgroundColor: Colors.white,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.add_circle,
+                    size: _page == 2 ? 35 : 30,
+                    color: _page == 2 ? Colors.white : Colors.grey,
+                  ),
+                  label: "",
+                  backgroundColor: Colors.white,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.favorite,
+                    size: _page == 3 ? 35 : 30,
+                    color: _page == 3 ? Colors.white : Colors.grey,
+                  ),
+                  label: "",
+                  backgroundColor: Colors.white,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.person,
+                    size: _page == 4 ? 35 : 30,
+                    color: _page == 4 ? Colors.white : Colors.grey,
+                  ),
+                  label: "",
+                  backgroundColor: Colors.white,
+                ),
+              ],
+              onTap: selectedTab,
             ),
-            label: "",
-            backgroundColor: Colors.white,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.add_circle,
-              size: _page == 2 ? 35 : 30,
-              color: _page == 2 ? Colors.white : Colors.grey,
-            ),
-            label: "",
-            backgroundColor: Colors.white,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite,
-              size: _page == 3 ? 35 : 30,
-              color: _page == 3 ? Colors.white : Colors.grey,
-            ),
-            label: "",
-            backgroundColor: Colors.white,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              size: _page == 4 ? 35 : 30,
-              color: _page == 4 ? Colors.white : Colors.grey,
-            ),
-            label: "",
-            backgroundColor: Colors.white,
-          ),
-        ],
-        onTap: selectedTab,
-      ),
-    );
+          );
   }
 }
