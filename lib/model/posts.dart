@@ -30,6 +30,7 @@ class UserPost {
         "datePublished": datePublished,
         "profileImage": profileImage,
         "likes": likes,
+        "postURL": postURL,
       };
   static UserPost fromSnap(DocumentSnapshot documentSnapshot) {
     var snapshot = documentSnapshot.data() as Map<String, dynamic>;
@@ -40,7 +41,6 @@ class UserPost {
       profileImage: snapshot['profileImage'],
       likes: snapshot['likes'],
       datePublished: snapshot['datePublished'],
-      postId: snapshot['postId'],
       postURL: snapshot['postURL'],
     );
   }
