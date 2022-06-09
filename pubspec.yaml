@@ -45,6 +45,7 @@ dependencies:
   image_picker: ^0.8.5+3
   image_picker_for_web: ^2.1.8
   uuid: ^3.0.6
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

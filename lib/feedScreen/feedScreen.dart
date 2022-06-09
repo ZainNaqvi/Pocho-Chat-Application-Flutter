@@ -5,6 +5,7 @@ import 'package:pocho_project/feedScreen/components/appbarActions.dart';
 import 'package:pocho_project/feedScreen/components/appbarTitle.dart';
 import 'package:pocho_project/feedScreen/components/postcard.dart';
 import 'package:pocho_project/widgets/customAppBar.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -14,8 +15,8 @@ class FeedScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: darkColor,
-          centerTitle: false,
+          backgroundColor: Colors.black,
+          centerTitle: true,
           leadingWidth: 0,
           leading: Container(),
           title: appbarTitle(),

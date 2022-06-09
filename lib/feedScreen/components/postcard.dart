@@ -26,14 +26,28 @@ class PostCardPage extends StatelessWidget {
                   backgroundImage: NetworkImage(snap["profileImage"]),
                 ),
                 const SizedBox(
-                  width: 5,
+                  width: 10,
                 ),
-                Text(
-                  snap["userName"],
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      snap["userName"],
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "-------",
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
                 ),
                 const Spacer(),
                 IconButton(
@@ -64,8 +78,9 @@ class PostCardPage extends StatelessWidget {
                       ),
                     );
                   },
-                  icon: const Icon(
-                    Icons.more_vert,
+                  icon: Icon(
+                    Icons.arrow_drop_down_outlined,
+                    color: Colors.white,
                   ),
                 ),
               ],
@@ -74,77 +89,31 @@ class PostCardPage extends StatelessWidget {
             SizedBox(
               height: 15,
             ),
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.45,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    snap!["postURL"],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.comment_outlined,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.share_outlined,
-                  ),
-                ),
-                Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.bookmark_outline),
-                ),
-              ],
-            ),
-            // details of teh post here...
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "1,4543 likes",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   SizedBox(
                     height: 10,
                   ),
-                  Text.rich(
-                    TextSpan(
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                  Row(
+                    children: [
+                      Icon(Icons.emoji_emotions),
+                      SizedBox(
+                        width: 5,
                       ),
-                      text: snap['userName'],
-                      children: [
-                        TextSpan(
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                            text: " ${snap['description']}"),
-                      ],
+                      Text(":)"),
+                    ],
+                  ),
+                  Text(
+                    snap['description'],
+                    style: TextStyle(
+                      height: 1.6,
+                      fontSize: 20.sp,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(
@@ -168,6 +137,98 @@ class PostCardPage extends StatelessWidget {
                 ],
               ),
             ),
+            Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.45,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    snap!["postURL"],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Divider(),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star_outline,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "View all 30 comments ",
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Divider(),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.favorite_outline_sharp,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "23 Likes",
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Divider(),
+                  SizedBox(
+                    height: 5,
+                  ),
+                ],
+              ),
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.favorite_outline,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.comment_outlined,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.share_outlined,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.download_outlined),
+                ),
+              ],
+            ),
+
+            // details of teh post here...
           ],
         ),
       ),
