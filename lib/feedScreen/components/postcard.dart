@@ -4,6 +4,7 @@ import 'package:pocho_project/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pocho_project/model/users.dart';
 import 'package:pocho_project/providers/userProviders.dart';
+import 'package:pocho_project/resources/firestoreMethods.dart';
 import 'package:pocho_project/widgets/customTermsAndConditial.dart';
 import 'package:pocho_project/widgets/likeAnimation.dart';
 import 'package:provider/provider.dart';
@@ -152,7 +153,12 @@ class _PostCardPageState extends State<PostCardPage> {
               ),
             ),
             GestureDetector(
-              onDoubleTap: () {
+              onDoubleTap: () async {
+                await FirestoreMethods().likePost(
+                  like: widget.snap['likes'],
+                  postId: widget.snap["postId"],
+                  uid: _user.uid,
+                );
                 setState(() {
                   isLikeAnimating = true;
                 });
@@ -254,10 +260,20 @@ class _PostCardPageState extends State<PostCardPage> {
                   smallLike: true,
                   isAnimating: widget.snap["likes"].contains(_user.uid),
                   child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.favorite_outline,
-                    ),
+                    onPressed: () async {
+                      await FirestoreMethods().likePost(
+                          postId: widget.snap['postId'],
+                          uid: _user.uid,
+                          like: widget.snap['likes']);
+                    },
+                    icon: widget.snap["likes"].contains(_user.uid)
+                        ? Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          )
+                        : Icon(
+                            Icons.favorite_outline,
+                          ),
                   ),
                 ),
                 IconButton(
