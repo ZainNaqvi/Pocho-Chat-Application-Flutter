@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pocho_project/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pocho_project/model/users.dart';
+import 'package:pocho_project/providers/userProviders.dart';
 import 'package:pocho_project/widgets/customTermsAndConditial.dart';
+import 'package:pocho_project/widgets/likeAnimation.dart';
+import 'package:provider/provider.dart';
 
-class PostCardPage extends StatelessWidget {
+class PostCardPage extends StatefulWidget {
   final snap;
   const PostCardPage({Key? key, required this.snap}) : super(key: key);
 
   @override
+  State<PostCardPage> createState() => _PostCardPageState();
+}
+
+class _PostCardPageState extends State<PostCardPage> {
+  bool isLikeAnimating = false;
+  @override
   Widget build(BuildContext context) {
+    final UserCreaditials _user = Provider.of<UserProviders>(context).getUser;
     return SingleChildScrollView(
       child: Container(
         width: double.infinity,
@@ -23,7 +35,7 @@ class PostCardPage extends StatelessWidget {
               children: [
                 CircleAvatar(
                   backgroundColor: darkColor,
-                  backgroundImage: NetworkImage(snap["profileImage"]),
+                  backgroundImage: NetworkImage(widget.snap["profileImage"]),
                 ),
                 const SizedBox(
                   width: 10,
@@ -32,7 +44,7 @@ class PostCardPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      snap["userName"],
+                      _user.fullName,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -42,7 +54,7 @@ class PostCardPage extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      "-------",
+                      _user.userName,
                       style: TextStyle(
                         color: Colors.grey,
                       ),
@@ -108,7 +120,7 @@ class PostCardPage extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    snap['description'],
+                    widget.snap['description'],
                     style: TextStyle(
                       height: 1.6,
                       fontSize: 20.sp,
@@ -129,7 +141,9 @@ class PostCardPage extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    "33/56/67",
+                    DateFormat.yMMMd().format(
+                      widget.snap['datePublished'].toDate(),
+                    ),
                     style: TextStyle(
                       color: Colors.grey,
                     ),
@@ -137,15 +151,48 @@ class PostCardPage extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.45,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    snap!["postURL"],
+            GestureDetector(
+              onDoubleTap: () {
+                setState(() {
+                  isLikeAnimating = true;
+                });
+              },
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.45,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          widget.snap!["postURL"],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  // ignore: prefer_const_constructors
+                  AnimatedOpacity(
+                    duration: Duration(milliseconds: 200),
+                    opacity: isLikeAnimating ? 1 : 0,
+                    child: LikeAnimation(
+                      child: Icon(
+                        Icons.thumb_up_outlined,
+                        size: 140,
+                        color: Colors.white,
+                      ),
+                      isAnimating: isLikeAnimating,
+                      duration: Duration(
+                        milliseconds: 400,
+                      ),
+                      onEnd: () {
+                        setState(() {
+                          isLikeAnimating = false;
+                        });
+                      },
+                    ),
+                  )
+                ],
               ),
             ),
             SizedBox(
@@ -185,7 +232,7 @@ class PostCardPage extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        "23 Likes",
+                        "${widget.snap["likes"].length} Likes",
                         style: TextStyle(
                           color: Colors.grey,
                         ),
@@ -203,10 +250,14 @@ class PostCardPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.favorite_outline,
+                LikeAnimation(
+                  smallLike: true,
+                  isAnimating: widget.snap["likes"].contains(_user.uid),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.favorite_outline,
+                    ),
                   ),
                 ),
                 IconButton(
