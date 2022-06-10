@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pocho_project/commentScreeen/components/commentsCart.dart';
 import 'package:pocho_project/constants.dart';
@@ -40,7 +41,32 @@ class _CommentScreenState extends State<CommentScreen> {
         },
         context: context,
       ),
-      body: CommentsCart(),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection("posts")
+              .doc(widget.snap['postId'])
+              .collection('comments')
+              .orderBy(
+                "datePublished",
+                descending: true,
+              )
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              );
+            }
+            return ListView.builder(
+                itemCount: (snapshot.data! as dynamic).docs.length,
+                itemBuilder: ((context, index) {
+                  return CommentsCart(
+                    snap: (snapshot.data! as dynamic).docs[index],
+                  );
+                }));
+          }),
       bottomNavigationBar: SafeArea(
         child: Container(
           width: double.infinity,
@@ -95,6 +121,7 @@ class _CommentScreenState extends State<CommentScreen> {
 
                                 setState(() {
                                   isPostedComment = false;
+                                  _commentTextEditingController.text = "";
                                 });
                                 showSnakeBar(res, context);
                               },

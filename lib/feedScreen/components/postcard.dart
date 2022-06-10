@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pocho_project/commentScreeen/comment.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pocho_project/model/users.dart';
 import 'package:pocho_project/providers/userProviders.dart';
 import 'package:pocho_project/resources/firestoreMethods.dart';
+import 'package:pocho_project/widgets/customSnakeBar.dart';
 import 'package:pocho_project/widgets/customTermsAndConditial.dart';
 import 'package:pocho_project/widgets/likeAnimation.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +23,28 @@ class PostCardPage extends StatefulWidget {
 
 class _PostCardPageState extends State<PostCardPage> {
   bool isLikeAnimating = false;
+  int noOfComments = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getComments();
+  }
+
+  void getComments() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(widget.snap['postId'])
+          .collection('comments')
+          .get();
+      noOfComments = snapshot.docs.length;
+      setState(() {});
+    } catch (e) {
+      showSnakeBar(e.toString(), context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final UserCreaditials _user = Provider.of<UserProviders>(context).getUser;
@@ -133,12 +158,19 @@ class _PostCardPageState extends State<PostCardPage> {
                   SizedBox(
                     height: 5,
                   ),
-                  Text(
-                    "View all 39 comments",
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
+                  noOfComments == 0
+                      ? Text(
+                          "No comment on post yet! ",
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        )
+                      : Text(
+                          "View all ${noOfComments} comments ",
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
                   SizedBox(
                     height: 5,
                   ),
@@ -220,12 +252,29 @@ class _PostCardPageState extends State<PostCardPage> {
                       SizedBox(
                         width: 5,
                       ),
-                      Text(
-                        "View all 30 comments ",
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
+                      noOfComments == 0
+                          ? Text(
+                              "No comment on post yet! ",
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        CommentScreen(snap: widget.snap),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "View all ${noOfComments} comments ",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                   Divider(),
