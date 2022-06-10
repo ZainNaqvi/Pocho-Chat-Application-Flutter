@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pocho_project/commentScreeen/comment.dart';
 import 'package:pocho_project/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pocho_project/model/users.dart';
@@ -55,7 +56,7 @@ class _PostCardPageState extends State<PostCardPage> {
                       height: 5,
                     ),
                     Text(
-                      _user.userName,
+                      "@${_user.userName}",
                       style: TextStyle(
                         color: Colors.grey,
                       ),
@@ -154,14 +155,14 @@ class _PostCardPageState extends State<PostCardPage> {
             ),
             GestureDetector(
               onDoubleTap: () async {
+                setState(() {
+                  isLikeAnimating = true;
+                });
                 await FirestoreMethods().likePost(
                   like: widget.snap['likes'],
                   postId: widget.snap["postId"],
                   uid: _user.uid,
                 );
-                setState(() {
-                  isLikeAnimating = true;
-                });
               },
               child: Stack(
                 alignment: Alignment.center,
@@ -179,11 +180,11 @@ class _PostCardPageState extends State<PostCardPage> {
                   ),
                   // ignore: prefer_const_constructors
                   AnimatedOpacity(
-                    duration: Duration(milliseconds: 200),
+                    duration: Duration(milliseconds: 1),
                     opacity: isLikeAnimating ? 1 : 0,
                     child: LikeAnimation(
                       child: Icon(
-                        Icons.thumb_up_outlined,
+                        Icons.favorite,
                         size: 140,
                         color: Colors.white,
                       ),
@@ -277,7 +278,15 @@ class _PostCardPageState extends State<PostCardPage> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CommentScreen(
+                          snap: widget.snap,
+                        ),
+                      ),
+                    );
+                  },
                   icon: Icon(
                     Icons.comment_outlined,
                   ),
