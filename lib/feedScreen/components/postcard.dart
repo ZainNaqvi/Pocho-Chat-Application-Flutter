@@ -48,6 +48,7 @@ class _PostCardPageState extends State<PostCardPage> {
   @override
   Widget build(BuildContext context) {
     final UserCreaditials _user = Provider.of<UserProviders>(context).getUser;
+    bool isDeleting = false;
     return SingleChildScrollView(
       child: Container(
         width: double.infinity,
@@ -91,31 +92,61 @@ class _PostCardPageState extends State<PostCardPage> {
                 const Spacer(),
                 IconButton(
                   onPressed: () {
-                    showDialog(
-                      barrierLabel: "Post Setting page",
-                      context: context,
-                      builder: (context) => Dialog(
-                        child: ListView(
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          shrinkWrap: true,
-                          children: [
-                            "Delete",
-                          ]
-                              .map(
-                                (e) => InkWell(
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 12.h,
-                                      horizontal: 16.w,
-                                    ),
-                                    child: Text(e),
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(
+                          SnackBar(
+                            elevation: 3,
+                            duration: Duration(seconds: 2),
+                            content: Container(
+                              height: 150.h,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  _user.uid == widget.snap['uid']
+                                      ? custombutton(
+                                          press: () async {
+                                            setState(() {
+                                              isDeleting = true;
+                                            });
+                                            String res =
+                                                await FirestoreMethods()
+                                                    .deletePost(
+                                              postId: widget.snap['postId'],
+                                            );
+                                            setState(() {
+                                              isDeleting = false;
+                                            });
+                                            showSnakeBar(res, context);
+                                          },
+                                          text: 'Delete')
+                                      : isDeleting
+                                          ? Center(
+                                              child: CircularProgressIndicator(
+                                                color: Colors.black,
+                                              ),
+                                            )
+                                          : Container(),
+                                  SizedBox(
+                                    height: 5,
                                   ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    );
+                                  custombutton(press: () {}, text: 'Report'),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  custombutton(
+                                      press: () {
+                                        setState(() {});
+                                      },
+                                      text: 'Cancel'),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                        .closed;
                   },
                   icon: Icon(
                     Icons.arrow_drop_down_outlined,
@@ -355,6 +386,29 @@ class _PostCardPageState extends State<PostCardPage> {
 
             // details of teh post here...
           ],
+        ),
+      ),
+    );
+  }
+
+  TextButton custombutton({
+    required String text,
+    required VoidCallback press,
+  }) {
+    return TextButton(
+      style: ButtonStyle(
+        minimumSize: MaterialStateProperty.all(
+          Size(500, 50),
+        ),
+        backgroundColor: MaterialStateProperty.all(
+          Colors.black.withOpacity(0.04),
+        ),
+      ),
+      onPressed: press,
+      child: Text(
+        text,
+        style: TextStyle(
+          color: Colors.black,
         ),
       ),
     );
