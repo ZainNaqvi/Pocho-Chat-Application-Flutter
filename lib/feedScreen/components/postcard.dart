@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pocho_project/commentScreeen/comment.dart';
@@ -9,7 +8,6 @@ import 'package:pocho_project/model/users.dart';
 import 'package:pocho_project/providers/userProviders.dart';
 import 'package:pocho_project/resources/firestoreMethods.dart';
 import 'package:pocho_project/widgets/customSnakeBar.dart';
-import 'package:pocho_project/widgets/customTermsAndConditial.dart';
 import 'package:pocho_project/widgets/likeAnimation.dart';
 import 'package:provider/provider.dart';
 
