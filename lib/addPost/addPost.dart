@@ -76,6 +76,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   void addPost({
     required String uid,
     required String userName,
+    required String fullName,
     required String profileImage,
   }) async {
     setState(() {
@@ -88,6 +89,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         uid: uid,
         userName: userName,
         profileImage: profileImage,
+        fullName: fullName,
       );
       if (res == "success") {
         setState(() {
@@ -129,6 +131,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
             uid: userCreaditials.uid,
             profileImage: userCreaditials.profilePic,
             userName: userCreaditials.userName,
+            fullName: userCreaditials.fullName,
           );
         },
         () => clearImage(),

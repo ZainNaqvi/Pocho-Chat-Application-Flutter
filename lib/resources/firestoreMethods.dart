@@ -15,6 +15,7 @@ class FirestoreMethods {
     required String uid,
     required String userName,
     required String profileImage,
+    required String fullName,
   }) async {
     String res = "Some error occured";
     try {
@@ -26,6 +27,7 @@ class FirestoreMethods {
         description: description,
         uid: uid,
         userName: userName,
+        fullName: fullName,
         postId: postId,
         datePublished: DateTime.now(),
         postURL: imageURL,

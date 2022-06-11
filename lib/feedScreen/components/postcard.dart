@@ -71,7 +71,7 @@ class _PostCardPageState extends State<PostCardPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _user.fullName,
+                      widget.snap["fullName"],
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -81,7 +81,7 @@ class _PostCardPageState extends State<PostCardPage> {
                       height: 5,
                     ),
                     Text(
-                      "@${_user.userName}",
+                      "@${widget.snap["userName"]}",
                       style: TextStyle(
                         color: Colors.grey,
                       ),
