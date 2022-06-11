@@ -5,12 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:pocho_project/feedScreen/components/appbarActions.dart';
 import 'package:pocho_project/feedScreen/components/appbarTitle.dart';
 import 'package:pocho_project/feedScreen/components/postcard.dart';
+import 'package:pocho_project/login/login_screen.dart';
+import 'package:pocho_project/resources/auth_user.dart';
+import 'package:pocho_project/widgets/customSnakeBar.dart';
 
-class FeedScreen extends StatelessWidget {
+class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
 
   @override
+  State<FeedScreen> createState() => _FeedScreenState();
+}
+
+class _FeedScreenState extends State<FeedScreen> {
+  @override
   Widget build(BuildContext context) {
+    bool signingOut = false;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -23,7 +33,19 @@ class FeedScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: appbarActions(
-                press: () {},
+                press: () async {
+                  setState(() {
+                    signingOut = true;
+                  });
+                  String res = await AuthUser().signOut();
+
+                  setState(() {
+                    signingOut = false;
+                  });
+                  Navigator.of(context)
+                      .pushReplacementNamed(LoginScreen.routeName);
+                  showSnakeBar(res, context);
+                },
               ),
             ),
           ],
@@ -46,12 +68,16 @@ class FeedScreen extends StatelessWidget {
               );
             }
 
-            return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) => PostCardPage(
-                snap: snapshot.data!.docs[index].data(),
-              ),
-            );
+            return signingOut
+                ? LinearProgressIndicator(
+                    color: Colors.white,
+                  )
+                : ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) => PostCardPage(
+                      snap: snapshot.data!.docs[index].data(),
+                    ),
+                  );
           },
         ),
       ),

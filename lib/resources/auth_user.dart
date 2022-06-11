@@ -107,4 +107,16 @@ class AuthUser {
     }
     return res;
   }
+
+  // signout
+  Future<String> signOut() async {
+    String res = "Some error Occured";
+    try {
+      await _auth.signOut();
+      res = "Logout Done.";
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
 }
