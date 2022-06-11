@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:pocho_project/commentScreeen/components/commentsCart.dart';
 import 'package:pocho_project/constants.dart';
 import 'package:pocho_project/login/components/suffixIcon.dart';
+import 'package:pocho_project/model/users.dart';
+import 'package:pocho_project/providers/userProviders.dart';
 import 'package:pocho_project/resources/firestoreMethods.dart';
 import 'package:pocho_project/widgets/customAppBar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pocho_project/widgets/customSnakeBar.dart';
+import 'package:provider/provider.dart';
 
 class CommentScreen extends StatefulWidget {
   final snap;
@@ -32,6 +35,7 @@ class _CommentScreenState extends State<CommentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final UserCreaditials user = Provider.of<UserProviders>(context).getUser;
     return Scaffold(
       appBar: customAppBar(
         text: "Comment",
@@ -90,7 +94,7 @@ class _CommentScreenState extends State<CommentScreen> {
                   children: [
                     CircleAvatar(
                       backgroundImage: NetworkImage(
-                        widget.snap["profileImage"],
+                        user.profilePic,
                       ),
                       radius: 25,
                       backgroundColor: darkColor,
@@ -115,8 +119,8 @@ class _CommentScreenState extends State<CommentScreen> {
                                   uid: widget.snap['uid'],
                                   postId: widget.snap['postId'],
                                   text: _commentTextEditingController.text,
-                                  profilePic: widget.snap['profileImage'],
-                                  username: widget.snap["userName"],
+                                  profilePic: user.profilePic,
+                                  username: user.userName,
                                 );
 
                                 setState(() {
