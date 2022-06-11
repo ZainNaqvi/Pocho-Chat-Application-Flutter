@@ -5,6 +5,7 @@ import 'package:pocho_project/commentScreeen/comment.dart';
 import 'package:pocho_project/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pocho_project/model/users.dart';
+import 'package:pocho_project/profile/components/fullImage.dart';
 import 'package:pocho_project/providers/userProviders.dart';
 import 'package:pocho_project/resources/firestoreMethods.dart';
 import 'package:pocho_project/widgets/customSnakeBar.dart';
@@ -225,42 +226,51 @@ class _PostCardPageState extends State<PostCardPage> {
                   uid: _user.uid,
                 );
               },
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.45,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          widget.snap!["postURL"],
+              child: InkWell(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ShowFULLImage(
+                      imageURL: widget.snap!["postURL"],
+                    ),
+                  ),
+                ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.45,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            widget.snap!["postURL"],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  // ignore: prefer_const_constructors
-                  AnimatedOpacity(
-                    duration: Duration(milliseconds: 1),
-                    opacity: isLikeAnimating ? 1 : 0,
-                    child: LikeAnimation(
-                      child: Icon(
-                        Icons.favorite,
-                        size: 140,
-                        color: Colors.white,
+                    // ignore: prefer_const_constructors
+                    AnimatedOpacity(
+                      duration: Duration(milliseconds: 1),
+                      opacity: isLikeAnimating ? 1 : 0,
+                      child: LikeAnimation(
+                        child: Icon(
+                          Icons.favorite,
+                          size: 140,
+                          color: Colors.white,
+                        ),
+                        isAnimating: isLikeAnimating,
+                        duration: Duration(
+                          milliseconds: 400,
+                        ),
+                        onEnd: () {
+                          setState(() {
+                            isLikeAnimating = false;
+                          });
+                        },
                       ),
-                      isAnimating: isLikeAnimating,
-                      duration: Duration(
-                        milliseconds: 400,
-                      ),
-                      onEnd: () {
-                        setState(() {
-                          isLikeAnimating = false;
-                        });
-                      },
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
             SizedBox(

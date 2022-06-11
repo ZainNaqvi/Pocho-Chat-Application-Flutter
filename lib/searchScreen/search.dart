@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pocho_project/constants.dart';
+import 'package:pocho_project/profile/profile.dart';
 import 'package:pocho_project/widgets/customOutlineBorder.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -67,32 +68,41 @@ class _SearchScreenState extends State<SearchScreen> {
                   return ListView.builder(
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            snapshot.data!.docs[index]['photoURL'],
-                          ),
-                        ),
-                        title: Text(
-                          (snapshot.data! as dynamic).docs[index]['userName'],
-                        ),
-                        subtitle: Text(
-                          (snapshot.data! as dynamic).docs[index]['bio'],
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                        trailing: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                          ),
-                          child: Text(
-                            "Follow",
-                            style: TextStyle(
-                              color: Colors.black,
+                      return InkWell(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(
+                              uid: snapshot.data!.docs[index]['uid'],
                             ),
                           ),
-                          onPressed: () {},
+                        ),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              snapshot.data!.docs[index]['photoURL'],
+                            ),
+                          ),
+                          title: Text(
+                            (snapshot.data! as dynamic).docs[index]['userName'],
+                          ),
+                          subtitle: Text(
+                            (snapshot.data! as dynamic).docs[index]['bio'],
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          trailing: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                            ),
+                            child: Text(
+                              "Follow",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                            onPressed: () {},
+                          ),
                         ),
                       );
                     },
@@ -114,32 +124,41 @@ class _SearchScreenState extends State<SearchScreen> {
                     itemBuilder: (context, index) {
                       return Dismissible(
                         key: UniqueKey(),
-                        child: ListTile(
-                          title: Text(
-                            snapshot.data!.docs[index]['userName'],
-                          ),
-                          subtitle: Text(
-                            snapshot.data!.docs[index]['bio'],
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              snapshot.data!.docs[index]['photoURL'],
-                            ),
-                          ),
-                          trailing: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                            ),
-                            child: Text(
-                              "Follow",
-                              style: TextStyle(
-                                color: Colors.black,
+                        child: InkWell(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ProfileScreen(
+                                uid: snapshot.data!.docs[index]['uid'],
                               ),
                             ),
-                            onPressed: () {},
+                          ),
+                          child: ListTile(
+                            title: Text(
+                              snapshot.data!.docs[index]['userName'],
+                            ),
+                            subtitle: Text(
+                              snapshot.data!.docs[index]['bio'],
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                snapshot.data!.docs[index]['photoURL'],
+                              ),
+                            ),
+                            trailing: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                              ),
+                              child: Text(
+                                "Follow",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              onPressed: () {},
+                            ),
                           ),
                         ),
                       );
