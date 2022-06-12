@@ -11,6 +11,7 @@ import 'package:pocho_project/signup/components/customInputDecoration.dart';
 import 'package:pocho_project/signup/components/eyeController.dart';
 import 'package:pocho_project/utilities/imagePicker.dart';
 import 'package:pocho_project/widgets/customSnakeBar.dart';
+import 'package:pocho_project/widgets/customTermsAndConditial.dart';
 
 import 'package:pocho_project/widgets/defaultButton.dart';
 
@@ -37,6 +38,7 @@ class _formFieldState extends State<formField> {
   Uint8List? _imageURL;
   // for loading state we have
   bool loading = false;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -70,8 +72,11 @@ class _formFieldState extends State<formField> {
       fullName: _fullNameController.text,
       userName: _userNameController.text,
     );
+
     if (res == "success") {
+      showalert(context);
       showSnakeBar(res, context);
+
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     } else if (res != "success") {
       showSnakeBar(res, context);

@@ -1,3 +1,5 @@
+import 'dart:html' as file;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +13,10 @@ import 'package:pocho_project/resources/firestoreMethods.dart';
 import 'package:pocho_project/widgets/customSnakeBar.dart';
 import 'package:pocho_project/widgets/likeAnimation.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class PostCardPage extends StatefulWidget {
   final snap;
@@ -380,7 +386,24 @@ class _PostCardPageState extends State<PostCardPage> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    try {
+                      final String urlImage = widget.snap!["postURL"];
+                      // final url = Uri.parse(urlImage);
+                      // final response = await http.get(url);
+                      // final bytes = response.bodyBytes;
+                      // final temp = await getTemporaryDirectory();
+                      // final path = '${temp.path}/image.jpg';
+                      // file.File(bytes, path);
+                      // print(path);
+                      await Share.share(
+                          "rate pocho application 5 if u like $urlImage");
+                      // await Share.shareFiles([path],
+                      //     text: "rate pocho application 5 if u like $url");
+                    } catch (e) {
+                      showSnakeBar(e.toString(), context);
+                    }
+                  },
                   icon: Icon(
                     Icons.share_outlined,
                   ),

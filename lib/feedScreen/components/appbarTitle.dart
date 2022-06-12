@@ -5,7 +5,7 @@ Column appbarTitle() {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
-        "TikTalk",
+        "P O C H O",
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

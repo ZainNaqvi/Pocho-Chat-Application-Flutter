@@ -47,6 +47,10 @@ dependencies:
   uuid: ^3.0.6
   shimmer: ^2.0.0
   intl: ^0.17.0
+  share_plus: ^4.0.7
+  http: ^0.13.4
+  path: ^1.8.0
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:

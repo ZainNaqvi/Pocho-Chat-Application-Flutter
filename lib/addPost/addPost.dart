@@ -9,6 +9,7 @@ import 'package:pocho_project/utilities/imagePicker.dart';
 import 'package:pocho_project/widgets/customSnakeBar.dart';
 import 'package:provider/provider.dart';
 import 'components/appbar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddPostScreen extends StatefulWidget {
   static String routeName = "/addPost";
@@ -137,12 +138,30 @@ class _AddPostScreenState extends State<AddPostScreen> {
         () => clearImage(),
       ),
       body: _file == null
-          ? Center(
-              child: IconButton(
-                  icon: Icon(
-                    Icons.upload,
+          ? Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.upload,
+                    ),
+                    onPressed: () => selectImage(context),
                   ),
-                  onPressed: () => selectImage(context)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Upload Image from your gallary or take a image using the phone camera and post it to the social media of P O C H O ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
             )
           : PostUpload(
               isloading: _isloading,
