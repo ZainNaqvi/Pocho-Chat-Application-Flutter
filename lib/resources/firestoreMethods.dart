@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart';
 import 'package:pocho_project/model/posts.dart';
 import 'package:pocho_project/providers/userProviders.dart';
 import 'package:pocho_project/utilities/storage_methods.dart';
@@ -74,6 +75,7 @@ class FirestoreMethods {
     required String text,
     required String profilePic,
     required String username,
+    required List likes,
   }) async {
     String res = "Some error Occured";
     try {
@@ -87,12 +89,14 @@ class FirestoreMethods {
             .collection("comments")
             .doc(commentsId)
             .set({
+          "commentsId": commentsId,
           "uid": uid,
           "postId": postId,
           "userName": username,
           "datePublished": DateTime.now(),
           "profileImage": profilePic,
           "comment": text,
+          "likes": [],
         });
         res = "The comment is posted successfully.";
       }
@@ -114,4 +118,43 @@ class FirestoreMethods {
     }
     return res;
   }
+
+  //liking the comments
+  Future<void> likePostComment({
+    required String postId,
+    required String commentId,
+    required String uid,
+    required List like,
+  }) async {
+    try {
+      if (like.contains(uid)) {
+        await _firebaseFirestore
+            .collection("posts")
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .update(
+          {
+            "likes": FieldValue.arrayRemove([uid]),
+          },
+        );
+      } else {
+        await _firebaseFirestore
+            .collection("posts")
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .update(
+          {
+            "likes": FieldValue.arrayUnion([uid]),
+          },
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // get data likes
+
 }

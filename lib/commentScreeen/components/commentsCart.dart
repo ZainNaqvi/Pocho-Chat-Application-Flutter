@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pocho_project/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pocho_project/model/users.dart';
 import 'package:pocho_project/providers/userProviders.dart';
+import 'package:pocho_project/resources/firestoreMethods.dart';
 import 'package:provider/provider.dart';
 
 class CommentsCart extends StatefulWidget {
@@ -16,7 +20,15 @@ class CommentsCart extends StatefulWidget {
 
 class _CommentsCartState extends State<CommentsCart> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final UserCreaditials user = Provider.of<UserProviders>(context).getUser;
+    String likes = widget.snap['likes'].length.toString();
     return SingleChildScrollView(
       child: SafeArea(
         child: Padding(
@@ -77,9 +89,25 @@ class _CommentsCartState extends State<CommentsCart> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.favorite,
+                              onPressed: () async {
+                                await FirestoreMethods().likePostComment(
+                                    postId: widget.snap['postId'],
+                                    commentId: widget.snap['commentsId'],
+                                    uid: widget.snap['uid'],
+                                    like: widget.snap['likes']);
+                              },
+                              icon: Stack(
+                                overflow: Overflow.visible,
+                                children: [
+                                  Icon(
+                                    Icons.favorite_outline,
+                                    color: Colors.red,
+                                  ),
+                                  Positioned(
+                                      bottom: -16.h,
+                                      left: 10,
+                                      child: Text("${likes}")),
+                                ],
                               ),
                             ),
                             IconButton(
@@ -88,12 +116,14 @@ class _CommentsCartState extends State<CommentsCart> {
                                 Icons.comment_outlined,
                               ),
                             ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.delete,
-                              ),
-                            ),
+                            user.uid == widget.snap['uid']
+                                ? IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.delete,
+                                    ),
+                                  )
+                                : Container(),
                           ],
                         ),
                       ],

@@ -55,7 +55,8 @@ class _CommentScreenState extends State<CommentScreen> {
                 descending: true,
               )
               .snapshots(),
-          builder: (context, snapshot) {
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(
@@ -64,10 +65,10 @@ class _CommentScreenState extends State<CommentScreen> {
               );
             }
             return ListView.builder(
-                itemCount: (snapshot.data! as dynamic).docs.length,
+                itemCount: snapshot.data!.docs.length,
                 itemBuilder: ((context, index) {
                   return CommentsCart(
-                    snap: (snapshot.data! as dynamic).docs[index],
+                    snap: snapshot.data!.docs[index],
                   );
                 }));
           }),
@@ -117,6 +118,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                 String res =
                                     await FirestoreMethods().postComments(
                                   uid: widget.snap['uid'],
+                                  likes: [],
                                   postId: widget.snap['postId'],
                                   text: _commentTextEditingController.text,
                                   profilePic: user.profilePic,
@@ -130,7 +132,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                 showSnakeBar(res, context);
                               },
                               child: suffixicon(
-                                icon: Icons.send,
+                                icon: Icons.send_outlined,
                               ),
                             ),
                             fillColor: Color.fromARGB(255, 199, 205, 211),
