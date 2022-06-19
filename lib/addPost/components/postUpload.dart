@@ -37,7 +37,7 @@ class PostUpload extends StatelessWidget {
             children: [
               _isloading
                   ? LinearProgressIndicator(
-                      color: Colors.red.withOpacity(0.4),
+                      color: Colors.white,
                     )
                   : Padding(padding: EdgeInsets.only(top: 0)),
               const Divider(),
@@ -105,7 +105,7 @@ class PostUpload extends StatelessWidget {
                     width: 10.w,
                   ),
                   SizedBox(
-                    width: 150.w,
+                    width: 250.w,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [

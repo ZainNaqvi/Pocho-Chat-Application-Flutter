@@ -98,7 +98,7 @@ class _formFieldState extends State<formField> {
             borderRadius: BorderRadius.circular(50),
             onTap: () => selectedImage(),
             child: Stack(
-              overflow: Overflow.visible,
+              clipBehavior: Clip.none,
               children: [
                 Container(
                   child: _imageURL != null

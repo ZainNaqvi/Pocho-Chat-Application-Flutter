@@ -97,7 +97,7 @@ class _CommentsCartState extends State<CommentsCart> {
                                     like: widget.snap['likes']);
                               },
                               icon: Stack(
-                                overflow: Overflow.visible,
+                                clipBehavior: Clip.none,
                                 children: [
                                   Icon(
                                     Icons.favorite_outline,

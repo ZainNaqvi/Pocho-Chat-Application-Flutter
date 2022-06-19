@@ -70,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return SingleChildScrollView(
       child: Scaffold(
         appBar: AppBar(backgroundColor: Colors.transparent),
         backgroundColor: Colors.black,
@@ -78,191 +78,191 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ? LinearProgressIndicator(
                 color: Colors.white,
               )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Stack(
-                    overflow: Overflow.visible,
-                    children: [
-                      Container(
-                        height: 300.h,
-                        width: double.infinity,
-                        child: Image.network(
-                          userData['photoURL'],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 300.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(0),
-                            bottomRight: Radius.circular(0),
-                          ),
-                          color: Colors.black.withOpacity(
-                            0.4,
+            : SafeArea(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          child: Image.network(
+                            userData['photoURL'],
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ),
-                      Positioned(
-                        left: 10.w,
-                        bottom: -50.h,
-                        child: Container(
-                          child: InkWell(
-                            onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => ShowFULLImage(
-                                  imageURL: userData['photoURL'],
-                                ),
-                              ),
+                        Container(
+                          width: double.infinity,
+                          height: 400.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(0),
+                              bottomRight: Radius.circular(0),
                             ),
-                            child: CircleAvatar(
-                              radius: 50.h,
-                              backgroundColor: darkColor,
-                              backgroundImage: NetworkImage(
-                                userData['photoURL'],
-                              ),
+                            color: Colors.black.withOpacity(
+                              0.4,
                             ),
                           ),
                         ),
-                      ),
-                      FirebaseAuth.instance.currentUser!.uid == widget.uid
-                          ? Positioned(
-                              left: 130.w,
-                              bottom: -50.w,
-                              child: Container(
-                                width: 200.w,
-                                height: 30.h,
-                                child: OutlinedButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    "Edit Profile",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                        Positioned(
+                          left: 10.w,
+                          bottom: -50.h,
+                          child: Container(
+                            child: InkWell(
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ShowFULLImage(
+                                    imageURL: userData['photoURL'],
                                   ),
                                 ),
                               ),
-                            )
-                          : isFollowing
-                              ? Positioned(
-                                  left: 130.w,
-                                  bottom: -50.w,
-                                  child: Container(
-                                    width: 200.w,
-                                    height: 30.h,
-                                    child: OutlinedButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        "Un Follow",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Positioned(
-                                  left: 130.w,
-                                  bottom: -50.w,
-                                  child: Container(
-                                    width: 200.w,
-                                    height: 30.h,
-                                    child: OutlinedButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        "Follow",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                              child: CircleAvatar(
+                                radius: 50.h,
+                                backgroundColor: darkColor,
+                                backgroundImage: NetworkImage(
+                                  userData['photoURL'],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        FirebaseAuth.instance.currentUser!.uid == widget.uid
+                            ? Positioned(
+                                left: 130.w,
+                                bottom: -50.w,
+                                child: Container(
+                                  width: 200.w,
+                                  height: 30.h,
+                                  child: OutlinedButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "Edit Profile",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
                                 ),
-                    ],
-                  ),
-                  Spacer(
-                    flex: 1,
-                  ),
-                  DefaultTextStyle(
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text("$followers"),
-                        Text("$followings"),
-                        Text("$postsLength"),
+                              )
+                            : isFollowing
+                                ? Positioned(
+                                    left: 130.w,
+                                    bottom: -50.w,
+                                    child: Container(
+                                      width: 200.w,
+                                      height: 30.h,
+                                      child: OutlinedButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          "Un Follow",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Positioned(
+                                    left: 130.w,
+                                    bottom: -50.w,
+                                    child: Container(
+                                      width: 200.w,
+                                      height: 30.h,
+                                      child: OutlinedButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          "Follow",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DefaultTextStyle(
-                    style: TextStyle(
-                      color: Colors.grey,
+                    SizedBox(
+                      height: 90.h,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text("Followers"),
-                        Text("Following"),
-                        Text("Posts"),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 32.w,
-                      vertical: 5.h,
-                    ),
-                    child: Expanded(
-                      child: Divider(
+                    DefaultTextStyle(
+                      style: TextStyle(
+                        fontSize: 20.sp,
                         color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("$followers"),
+                          Text("$followings"),
+                          Text("$postsLength"),
+                        ],
                       ),
                     ),
-                  ),
-                  Text(
-                    "${userData["fullName"]} @${userData['userName']}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    "${userData["bio"]}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 32.w,
-                      vertical: 5.h,
-                    ),
-                    child: Expanded(
-                      child: Divider(
-                        color: Colors.white,
+                    DefaultTextStyle(
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("Followers"),
+                          Text("Following"),
+                          Text("Posts"),
+                        ],
                       ),
                     ),
-                  ),
-                  Spacer(),
-                ],
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 32.w,
+                        vertical: 5.h,
+                      ),
+                      child: Expanded(
+                        child: Divider(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "${userData["fullName"]} @${userData['userName']}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "${userData["bio"]}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 32.w,
+                        vertical: 5.h,
+                      ),
+                      child: Expanded(
+                        child: Divider(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
       ),
     );
